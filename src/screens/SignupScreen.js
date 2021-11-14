@@ -17,10 +17,12 @@ import FormInputFontAwesome from "../components/FormInputFontAwesome";
 import FormButton from "../components/FormButton";
 import FormPassword from "../components/FormPassword";
 import appbg from "../assests/appbg.png";
-import Logo from "../assests/logo.png";
+import Logo from "../assests/unnamed.jpg";
 import Axios from 'axios';
 import Routes from "../navigation/Routes";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Snackbar from 'react-native-snackbar';
+import {windowWidth,windowHeight} from "../utils/Dimension";
 
 const SignupScreen = ({navigation}) => {
   const [email, setEmail] = useState();
@@ -70,6 +72,7 @@ const SignupScreen = ({navigation}) => {
     } else {
       console.log(email,password);
       try {
+        console.log(email,password);
         Axios.post('http://192.168.1.104:5000/api/auth/signup', {
           username:name,
           email: email,
@@ -98,6 +101,14 @@ const SignupScreen = ({navigation}) => {
                 user_phoneNumber=response.data.phonenumber;
                 console.log(userids,user_names,user_emails,user_phoneNumber);
                 storeData(userids,user_names,user_emails,user_phoneNumber);
+                Snackbar.show({
+                  text: 'Account Successfully create!',
+                  backgroundColor:"green",
+                  duration: Snackbar.LENGTH_SHORT,
+                  action: {
+                    textColor: 'black',
+                  },
+                });
                 navigation.replace("Home");
               })
               .catch(function (error) {
@@ -195,7 +206,7 @@ const SignupScreen = ({navigation}) => {
                     <Text style={styles.navButtonText}>Have an account? Sign In</Text>
                   </TouchableOpacity>
 
-                  <View style={{justifyContent: 'center',alignItems: 'center',marginTop:80}}>
+                  <View style={{justifyContent: 'center',alignItems: 'center',marginTop:20}}>
                           <Image
                           style={styles.logo}
                           source={Logo}

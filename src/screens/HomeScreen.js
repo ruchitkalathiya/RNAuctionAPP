@@ -1,9 +1,10 @@
 import React,  { useState,useEffect,useContext } from 'react';
-import { StyleSheet,ImageBackground, ScrollView, Image, Text, View, TouchableOpacity, Dimensions,Alert,BackHandler } from 'react-native';
+import { StyleSheet,ImageBackground, ScrollView, Image, Text, View, TouchableOpacity, Dimensions,Alert,BackHandler,TouchableHighlight} from 'react-native';
 import appbg from "../assests/appbg.png";
-import Logo from "../assests/logo.png";
-//import {Header} from "react-native-elements";
-//import { FontAwesome } from '@expo/vector-icons';
+import Logo from "../assests/text2.jpg";
+import {Header} from "react-native-elements";
+import Icon from "react-native-vector-icons/Entypo";
+import Icon1 from "react-native-vector-icons/Ionicons";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //import * as Font from 'expo-font';
 
@@ -17,18 +18,37 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
   const imageslider = [
-    'https://jdwebservices.com/img/careenengine1/Quiz.png',
-    'https://jdwebservices.com/img/careenengine1/english%20learn.png',
-    'https://jdwebservices.com/img/careenengine1/test.png',
-  ]
+    'https://www.conceptzhomeandproperty.com/wp-content/uploads/2021/06/istockphoto-917901978-612x612-1.jpg',
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Microcosm_of_London_Plate_006_-_Auction_Room%2C_Christie%27s_%28colour%29.jpg/1200px-Microcosm_of_London_Plate_006_-_Auction_Room%2C_Christie%27s_%28colour%29.jpg',
+    'https://lh3.googleusercontent.com/proxy/tMkNGo8f2I0PlUd0bvMW_OK20lr06MGrOct3EBJhvRSwl6zAJ4vQuSaE3HIbn_mkQIjP2F_BuhmJqoherzxINAjpBjku5kyW3eU8BGysI5B3Rwa7LtuRUg52NjKf1CP6dw',  
+]
 
   const { width } = Dimensions.get("window");
   const height = width * 0.6; //60%
 
   useEffect(() => {
-    //removeValue();
-  }, []);
+    const backAction = () => {
+      Alert.alert('Hold on!', 'Are you sure you want to exit?', [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        { text: 'YES', onPress: () => BackHandler.exitApp() },
+      ]);
+      return true;
+    };
 
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+    return () => backHandler.remove();
+     }, [])
+
+
+  const handlePress = () => {
+    removeValue();
+    navigation.replace("Login");
+  };
 
   const removeValue = async () => {
     try {
@@ -65,19 +85,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
   return (
     <View style={styles.container}>
 
-{/* <Header
-  statusBarProps={{ barStyle: 'light-content' }}
-  barStyle="light-content"
-  placement="left"
-  centerComponent={{ text: 'Home', style: { color: 'black',fontWeight:'bold',fontSize:20 } }}
-  rightComponent={<TouchableOpacity onPress={handlePress}>
-                      <FontAwesome name="user-circle-o" size={30} color="black" />
-                  </TouchableOpacity>}
-  containerStyle={{
-    backgroundColor: 'white',
-    justifyContent: 'space-around',
-  }}
-/> */}
+    <Header
+    statusBarProps={{ barStyle: 'light-content' }}
+    barStyle="light-content"
+    placement="left"
+    centerComponent={{ text: 'Home', style: { color: 'black',fontWeight:'bold',fontSize:20 } }}
+    rightComponent={<TouchableOpacity onPress={handlePress}>
+                        <Icon name="log-out" size={30} color="black" />
+                    </TouchableOpacity>}
+    containerStyle={{
+        backgroundColor: 'white',
+        justifyContent: 'space-around',
+    }}
+    />
 
       <ImageBackground source={appbg} style={styles.image}>
       <ScrollView style={styles.scrollArea}>
@@ -143,7 +163,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
     <View style={{marginTop:20, marginLeft:10}}>
-      <Text style={[styles.headingText,{color:'#4F216C',fontWeight: "bold",paddingTop:5}]}>Self Learning Materials</Text>
+      <Text style={[styles.headingText,{color:'#4F216C',fontWeight: "bold",paddingTop:5}]}>Category</Text>
     </View>
     <View style={styles.container_content}>
         <ScrollView
@@ -153,30 +173,30 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
             <View style={styles.container_home}>
                 <View style={styles.home_section}>
                     <TouchableOpacity 
-                    //   onPress={() =>
-                    //     navigation.navigate("Rule of Success")
-                    //     }
+                      onPress={() =>
+                        navigation.navigate("Screen1")
+                        }
                         >
                         <View style={styles.inner}>
                             <Image
                                 style={styles.home_image_cat}
-                                source={{uri:'https://jdwebservices.com/img/careenengine1/home_image/rule_of_success.png'}}/>
-                            <Text style={styles.text_p}>Rules of Success</Text>
+                                source={require('../assests/electronics.jpg')}/>
+                            <Text style={styles.text_p}>Electronics</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.home_section}>
                     <TouchableOpacity 
-                    //  onPress={() =>
-                    //   navigation.navigate("Become a Graphic Designer")
-                    //   }
+                     onPress={() =>
+                      navigation.navigate("Screen2")
+                      }
                       >
                         <View style={styles.inner}>
                             <Image
                                 style={styles.home_image_cat}
-                                source={{uri:'https://jdwebservices.com/img/careenengine1/home_image/graphic designer.jpg'}}/>
-                            <Text style={styles.text_p}>Become a Graphic Designer</Text>
+                                source={require('../assests/phones.jpg')}/>
+                            <Text style={styles.text_p}>Phones</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -184,82 +204,88 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
                 <View style={styles.home_section}>
                     <TouchableOpacity 
-                    // onPress={() =>
-                    //   navigation.navigate("Become a Developer")
-                    //   }
+                     onPress={() =>
+                        navigation.navigate("Screen3")
+                        }
                       >
                         <View style={styles.inner}>
                             <Image
                                 style={styles.home_image_cat}
-                                source={{uri:'https://jdwebservices.com/img/careenengine1/home_image/Web D.jpg'}}/>
-                            <Text style={styles.text_p}>Become a Front/Back End "Developer"</Text>
+                                source={require('../assests/art.jpg')}/>
+                            <Text style={styles.text_p}>Art</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
                 
                 <View style={styles.home_section}>
                     <TouchableOpacity 
-                    // onPress={() =>
-                    //   navigation.navigate("Making your Resume")
-                    //   }
+                    onPress={() =>
+                        navigation.navigate("Screen4")
+                        }
                       >
                         <View style={styles.inner}>
                             <Image
                                 style={styles.home_image_cat}
-                                source={{uri:'https://jdwebservices.com/img/careenengine1/home_image/resume.png'}}/>
-                            <Text style={styles.text_p}>Making your Resume </Text>
+                                source={require('../assests/carsss.png')}/>
+                            <Text style={styles.text_p}>Cars</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
                 
                 <View style={styles.home_section}>
                     <TouchableOpacity 
-                    //   onPress={() =>
-                    //     navigation.navigate("MS Office & Google Docs/Sheets")
-                    //     }
+                    onPress={() =>
+                        navigation.navigate("Screen5")
+                        }
                         >
                         <View style={styles.inner}>
                             <Image
                                 style={styles.home_image_cat}
-                                source={{uri:'https://jdwebservices.com/img/careenengine1/home_image/msoffice.png'}}/>
-                            <Text style={styles.text_p}>MS Office & Google Docs/Sheets</Text>
+                                source={require('../assests/antic.jpg')}/>
+                            <Text style={styles.text_p}>Antic</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.home_section}>
                     <TouchableOpacity 
-                    //   onPress={() =>
-                    //     navigation.navigate("Learn English Everyday")
-                    //     }
+                     onPress={() =>
+                        navigation.navigate("Screen6")
+                        }
                         >
                         <View style={styles.inner}>
                             <Image
                                 style={styles.home_image_cat}
-                                source={{uri:'https://jdwebservices.com/img/careenengine1/home_image/english.png'}}/>
-                            <Text style={styles.text_p}>Learn English</Text>
+                                source={require('../assests/jewelry.jpg')}/>
+                            <Text style={styles.text_p}>Jewelry</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.home_section}>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                     onPress={() =>
+                        navigation.navigate("Screen7")
+                        }>
                         <View style={styles.inner}>
                             <Image
                                 style={styles.home_image_cat}
-                                source={{uri:'https://www.jdwebservices.com/img/careenengine1/home_image/science_n.jpg'}}/>
-                            <Text style={styles.text_p}>Learn Science</Text>
+                                source={require('../assests/cookwear.jpg')}/>
+                            <Text style={styles.text_p}>Cookwear</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.home_section}>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                     onPress={() =>
+                        navigation.navigate("Screen8")
+                        }>
                         <View style={styles.inner}>
                             <Image
                                 style={styles.home_image_cat}
-                                source={{uri:'https://www.jdwebservices.com/img/careenengine1/home_image/maths.jpg'}}/>
-                            <Text style={styles.text_p}>Learn Math</Text>
+                                source={require('../assests/books.jpg')}/>
+                            <Text style={styles.text_p}>Books</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -273,8 +299,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
                         <View style={styles.inner}>
                             <Image
                                 style={styles.home_image_cat}
-                                source={{uri:'https://jdwebservices.com/img/careenengine1/home_image/findskillsthatpay.png'}}/>
-                            <Text style={styles.text_p}>Find Skills that Pay</Text>
+                                source={require('../assests/others.png')}/>
+                            <Text style={styles.text_p}>Others</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -303,7 +329,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
-<   View style={{ marginLeft:10}}>
+{/* <   View style={{ marginLeft:10}}>
       <Text style={[styles.headingText,{color:'#4F216C',fontWeight: "bold",paddingTop:5}]}>Quiz Materials</Text>
     </View>
     <View style={styles.container_content}>
@@ -344,10 +370,39 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
             </View>
 
         </ScrollView>
-    </View>
+    </View> */}
 
 
     </ScrollView>
+
+    <View>
+        <View style={styles.footer}>
+          <TouchableOpacity style={styles.bottomButtons} onPress={() => navigation.navigate('Sell')}>
+            <View style={{ justifyContent: 'center',alignItems: 'center',}}>
+                <Icon1 name="ios-pricetag" size={30} color="black"  />
+                <Text style={styles.footerText}>Sell</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.bottomButtons} onPress={() => navigation.navigate('Buy')}>
+            <View style={{ justifyContent: 'center',alignItems: 'center',}}>
+                <Icon1 name="ios-pricetag-sharp" size={30} color="black" />
+                <Text style={styles.footerText}>Bid</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.bottomButtons} onPress={() => navigation.navigate('MyAuction')}>
+            <View style={{ justifyContent: 'center',alignItems: 'center',}}>
+                <Icon1 name="ios-pricetags-sharp" size={30} color="black" />
+                <Text style={styles.footerText}>My Auction</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.bottomButtons} onPress={() => navigation.navigate('Profile')}>
+            <View style={{ justifyContent: 'center',alignItems: 'center',}}>
+                <Icon1 name="person-circle-sharp" size={30} color="black" />
+                <Text style={styles.footerText}>Profile</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+    </View>
   </ImageBackground>     
     </View>
 
@@ -511,6 +566,30 @@ const styles = StyleSheet.create({
     },
     link:{
       color:"#0000FF"
-    }
+    },
+    footer: {
+        position: 'absolute',
+        flex:0.1,
+        left: 0,
+        right: 0,
+        bottom: -10,
+        backgroundColor:'white',
+        flexDirection:'row',
+        height:80,
+        alignItems:'center',
+        justifyContent: 'center',
+      },
+      bottomButtons: {
+        alignItems:'center',
+        justifyContent: 'center',
+        flex:1,
+      },
+      footerText: {
+        color:'black',
+        fontWeight:'bold',
+        alignItems:'center',
+        fontSize:16,
+      },
+      
 });
 export default HomeScreen;

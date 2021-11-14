@@ -72,21 +72,21 @@ const OnboardingScreen= ({navigation}) => {
         pages={[
           {
             backgroundColor: '#FFFFFF',
-            image: <Image source={require("../assests/onboarding1.png")} style={styles.forimage}/>,
-            title: 'WELCOME TO NEWS WORLD',
-            subtitle: 'Meet the Greatest News',
+            image: <Image source={require("../assests/boarding8.jpg")} style={styles.forimage}/>,
+            title: 'WELCOME TO AUCTION APP',
+            subtitle: 'One stop place to buy and sell',
           },
           {
             backgroundColor: '#FFFFFF',
-            image: <Image source={require('../assests/7daylive.jpg')} style={styles.forimage}/>,
-            title: 'BREAKING NEWS',
-            subtitle: 'Because you deserve nothing but the truth',
+            image: <Image source={require('../assests/boarding7.jpg')} style={styles.forimage2}/>,
+            title: 'ONLINE AUCTION',
+            subtitle: 'Bid Online for collectable and need dimmer thing',
           },
           {
             backgroundColor: '#FFFFFF',
-            image: <Image source={require('../assests/worldpeople.jpg')} style={styles.forimage}/>,
-            title: 'The Power of Information',
-            subtitle: 'Connected to your community',
+            image: <Image source={require('../assests/boarding1.jpg')} style={styles.forimage3}/>,
+            title: 'PRIVATE AUCTION',
+            subtitle: 'Organise your private auction whatever you want',
           },
         ]}
       />
@@ -102,7 +102,15 @@ const styles=StyleSheet.create({
         justifyContent:'center',
     },
     forimage:{
-      height:370,
-      width:370,
+      height:350,
+      width:350,
+    },
+    forimage2:{
+      height:350,
+      width:400,
+    },
+    forimage3:{
+      height:350,
+      width:350,
     }
 });

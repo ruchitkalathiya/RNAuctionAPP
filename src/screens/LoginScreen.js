@@ -24,6 +24,9 @@ import appbg from "../assests/appbg.png";
 import anew from "../assests/anew1.jpg";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Axios from 'axios';
+import Logo1 from "../assests/unnamed.jpg";
+import {Header} from "react-native-elements";
+import Snackbar from 'react-native-snackbar';
 import {
   GoogleSignin,
   GoogleSigninButton,
@@ -206,6 +209,7 @@ const LoginScreen=({navigation})=>{
       .then(function (response) {
         console.log(response);
         responses=response.data.status;
+        console.log(responses);
         
        try {
         if(responses=='success'){
@@ -215,6 +219,13 @@ const LoginScreen=({navigation})=>{
           user_phoneNumber=response.data.phonenumber;
           console.log(userids,user_names,user_emails,user_phoneNumber);
           storeData(userids,user_names,user_emails,user_phoneNumber);
+          Snackbar.show({
+            text: 'Login Successfully!',
+            duration: Snackbar.LENGTH_INDEFINITE,
+            action: {
+              textColor: 'green',
+            },
+          });
           navigation.replace("Home");
         }else{
           setEmail('');
@@ -229,7 +240,7 @@ const LoginScreen=({navigation})=>{
       })
       .catch(function (error) {
         setloading(1);
-        Alert.alert('user not found');
+        Alert.alert(error);
       });
      } catch (error) {
        setloading(1);
@@ -247,7 +258,7 @@ const LoginScreen=({navigation})=>{
   }else{
     return (
       <View style={styles.views}>
-              {/* <Header
+              <Header
                      statusBarProps={{ barStyle: 'light-content' }}
                      barStyle="light-content"
                      placement="left"
@@ -256,7 +267,7 @@ const LoginScreen=({navigation})=>{
                         backgroundColor: 'white',
                            justifyContent: 'space-around',
                      }}
-               /> */}
+               />
         <ImageBackground source={appbg} style={styles.image}> 
         <ScrollView contentContainerStyle={styles.container}>
           <View>
@@ -317,10 +328,10 @@ const LoginScreen=({navigation})=>{
                       Don't have an acount? Create one here
                   </Text>
               </TouchableOpacity>
-              <View style={{justifyContent: 'center',alignItems: 'center',marginTop:40}}>
+              <View style={{justifyContent: 'center',alignItems: 'center',marginTop:20}}>
                           <Image
                           style={styles.logo}
-                          source={require("../assests/Auction-Stamp.png")}
+                          source={Logo1}
                           />
                   </View>
             </View>
@@ -354,8 +365,8 @@ const styles = StyleSheet.create({
     marginBottom:15,
   },
   logo:{
-    width:110,
-    height:110,
+    width:250,
+    height:80,
     //marginTop:30
   },
   button: {
