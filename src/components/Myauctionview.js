@@ -16,7 +16,7 @@ const webViewHeight = Dimensions.get('window').height - 56;
 
 const Myauctionview=({route,navigation})=>{
 
-    const {item,fornavigation,screen}=route.params;
+    const {item,fornavigation,screen,uid}=route.params;
     //console.log(route.params);
 
     const [bidprice, setbidprice] = useState(0);
@@ -40,6 +40,7 @@ const Myauctionview=({route,navigation})=>{
     useEffect(() => {
         //setloading(0);
         //const {item} = route.params;
+        let co=true;
         console.log("random",item);
         const d = new Date();
         console.log(d);
@@ -57,7 +58,25 @@ const Myauctionview=({route,navigation})=>{
         text = v.toString();
         console.log("v",v);
         setEnddate(text);
-        setcompare(d < h);
+        const forwinnernew = new Date(c.getFullYear(),c.getMonth(),c.getDate(),ho,mi,0, 0);
+        console.log("d and h",d,forwinnernew.getMinutes());
+        console.log(d.getHours(),forwinnernew.getHours(),d.getMinutes(),forwinnernew.getMinutes());
+        console.log('x < y', d.getDate <= forwinnernew.getDate && d.getMonth() <=forwinnernew.getMonth() && d.getFullYear() <=forwinnernew.getFullYear() && d.getHours <=forwinnernew.getHours() && d.getMinutes() <=forwinnernew.getMinutes());
+        //setcompare(d.getDate <= forwinnernew.getDate && d.getMonth() <=forwinnernew.getMonth() && d.getFullYear() <=forwinnernew.getFullYear() && d.getHours <=forwinnernew.getHours() && d.getMinutes() <=forwinnernew.getMinutes());
+        if(d.getDate() < forwinnernew.getDate()){
+            setcompare(true);
+            co=true;
+            console.log("setcompare",true);
+        }else if(d.getDate() <= forwinnernew.getDate()){
+            setcompare(false);
+            co=false;
+            console.log("setcompareeuaal",false);
+        }
+        else{
+            console.log("setcompare",false);
+            co=false;
+            setcompare(false)
+        }
         if(item){
             try {
                 Axios.post("http://192.168.1.104:5000/api/BidProduct/findbid", {
@@ -85,10 +104,10 @@ const Myauctionview=({route,navigation})=>{
                         console.log(cars);
                         max=Math.max(...cars);
                         console.log(cars.indexOf(Math.max(...cars)));
-                        console.log(forids[cars.indexOf(Math.max(...cars))]);
+                        console.log("hello",forids[cars.indexOf(Math.max(...cars))]);
                         setwinner(forids[cars.indexOf(Math.max(...cars))]);
                         setrandom(Math.max(...cars));
-                        if(!(d < h)){
+                        if(!(co)){
                             Axios.post('http://192.168.1.104:5000/api/BidProduct/findwinnerid', {
                                 userid:forids[cars.indexOf(Math.max(...cars))]
                               })
@@ -97,21 +116,22 @@ const Myauctionview=({route,navigation})=>{
                                 if(response.data.status=="success"){
                                     const dom=response.data.data[0];
                                     setdom(dom);
+                                    console.log("dom",dom);
                                     console.log(dom.id,item.id,item.productname,max.toString(),h,dom.username);
-                                    Axios.post('http://192.168.1.104:5000/api/BidProduct/Winnerdetalis', {
-                                        userid:dom.id,
-                                        productid:item.id,
-                                        bidproductname:item.productname,
-                                        soldamount:max.toString(),
-                                        solddate:h,
-                                        winnername:dom.username
-                                      })
-                                      .then(function (response) {
-                                        console.log("Winner",response.data.status);
-                                      })
-                                      .catch(function (error) {
-                                        console.log(error);
-                                      });
+                                    // Axios.post('http://192.168.1.104:5000/api/BidProduct/Winnerdetalis', {
+                                    //     userid:dom.id,
+                                    //     productid:item.id,
+                                    //     bidproductname:item.productname,
+                                    //     soldamount:max.toString(),
+                                    //     solddate:h,
+                                    //     winnername:dom.username
+                                    //   })
+                                    //   .then(function (response) {
+                                    //     console.log("Winner",response.data.status);
+                                    //   })
+                                    //   .catch(function (error) {
+                                    //     console.log(error);
+                                    //   });
                                 }
                               })
                               .catch(function (error) {
@@ -326,21 +346,31 @@ const Myauctionview=({route,navigation})=>{
                                </>
                             ) : (
                                 <>
-                                      <View style={styles.center}>
-                                            <Text style={styles.title}>Bid End</Text>
-                                            <Text style={styles.padTop}>
-                                                <Text style={styles.label}>Winner Name:</Text> &nbsp;
-                                                    {dom.username}
-                                            </Text>
-                                            <Text style={styles.padTop}>
-                                                <Text style={styles.label}>Sold Amount:</Text> &nbsp;
-                                                    {random}
-                                            </Text>
-                                            <Text style={styles.padTop}>
-                                                <Text style={styles.label}>Email:</Text> &nbsp;
-                                                    {dom.email}
-                                            </Text>
-                                      </View>
+                                    {is_bideen ? (
+                                            <View style={styles.center}>
+                                                <Text style={styles.title}>Bid End</Text>
+                                                    <Text style={styles.padTop}>
+                                                        <Text style={styles.label}>Winner Name:</Text> &nbsp;
+                                                           {dom.username}
+                                                        </Text>
+                                                        <Text style={styles.padTop}>
+                                                            <Text style={styles.label}>Sold Amount:</Text> &nbsp;
+                                                                {random}
+                                                            </Text>
+                                                        <Text style={styles.padTop}>
+                                                        <Text style={styles.label}>Email:</Text> &nbsp;
+                                                            {dom.email}
+                                                        </Text>
+                                                            <Text style={styles.padTop}>
+                                                                <Text style={styles.label}>Phone No.:-</Text> &nbsp;
+                                                                        {dom.phonenumber}
+                                                          </Text>
+                                                       </View>
+                                        ) : (
+                                            <View style={styles.center}>
+                                                <Text style={styles.title}>Unsold</Text>
+                                            </View>
+                                        )}
                                 </>
                             )}
                            

@@ -163,7 +163,7 @@ const MyAuction=({navigation})=>{
               <FlatList data={details}
                   keyExtractor={(item, index) => 'key' + index}
                   renderItem={({item}) => {
-                      return <NewsCard item = {item} onPress={"Myauctionview"} screen={"MyAuction"} navigation={navigation}/>
+                      return <NewsCard item = {item} onPress={"Myauctionview"} screen={"MyAuction"} uid={id} navigation={navigation}/>
                       // console.log("item",item);
                       // renderItemComponent(item)
                   }}

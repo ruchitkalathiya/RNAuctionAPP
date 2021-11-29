@@ -8,7 +8,7 @@ import moment from 'moment';
 
 const { width, height } = Dimensions.get('window')
 
-const NewsCard = ({item,onPress,screen,navigation}) => {
+const NewsCard = ({item,onPress,screen,uid,navigation}) => {
     const opimage=image3;
 
     //const {url, title} = item
@@ -18,7 +18,8 @@ const NewsCard = ({item,onPress,screen,navigation}) => {
         navigation.navigate(onPress, {
             item:item,
             fornavigation:onPress,
-            screen:screen
+            screen:screen,
+            uid:uid
           })
     )
 

@@ -36,14 +36,14 @@ const AuthStack=({routeName})=> {
         <Stack.Screen name="Sell" component={Sell} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Buy" component={Buy} />
-        <Stack.Screen name="Screen1" component={Screen1} />
-        <Stack.Screen name="Screen2" component={Screen2} />
-        <Stack.Screen name="Screen3" component={Screen3} />
-        <Stack.Screen name="Screen4" component={Screen4} />
-        <Stack.Screen name="Screen5" component={Screen5} />
-        <Stack.Screen name="Screen6" component={Screen6} />
-        <Stack.Screen name="Screen7" component={Screen7} />
-        <Stack.Screen name="Screen8" component={Screen8} />
+        <Stack.Screen name="Screen1" component={Screen1} options={{ title: 'Electronics' }}/>
+        <Stack.Screen name="Screen2" component={Screen2} options={{ title: 'Phones' }}/>
+        <Stack.Screen name="Screen3" component={Screen3} options={{ title: 'Art' }}/>
+        <Stack.Screen name="Screen4" component={Screen4} options={{ title: 'Cars' }}/>
+        <Stack.Screen name="Screen5" component={Screen5} options={{ title: 'Antic' }}/>
+        <Stack.Screen name="Screen6" component={Screen6} options={{ title: 'Jewelry' }}/>
+        <Stack.Screen name="Screen7" component={Screen7} options={{ title: 'Cookwear' }}/>
+        <Stack.Screen name="Screen8" component={Screen8} options={{ title: 'Books' }}/>
         <Stack.Screen name="ModelComponent" component={ModelComponent} />
         <Stack.Screen name="Myauctionview" component={Myauctionview} />
         <Stack.Screen name="Winnerhistory" component={Winnerhistory} />

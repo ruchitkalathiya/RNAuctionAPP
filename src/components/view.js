@@ -17,7 +17,7 @@ const webViewHeight = Dimensions.get('window').height - 56;
 
 const ModelComponent=({route,navigation})=>{
 
-    const {item,fornavigation,screen}=route.params;
+    const {item,fornavigation,screen,uid}=route.params;
     //console.log(route.params);
 
     const [bidprice, setbidprice] = useState(0);
@@ -42,9 +42,10 @@ const ModelComponent=({route,navigation})=>{
     )
 
     useEffect(() => {
+        let co=true;
         //setloading(0);
         //const {item} = route.params;
-        console.log("random",item);
+        console.log("random",uid);
         const d = new Date();
         console.log(d);
         const c = new Date(item.date);
@@ -61,7 +62,33 @@ const ModelComponent=({route,navigation})=>{
         text = v.toString();
         console.log("v",v);
         setEnddate(text);
-        setcompare(d < h);
+        const forwinnernew = new Date(c.getFullYear(),c.getMonth(),c.getDate(),ho,mi,0, 0);
+        console.log("d and h",d,forwinnernew.getMinutes());
+        console.log(d.getHours(),forwinnernew.getHours(),d.getMinutes(),forwinnernew.getMinutes());
+        console.log(d,forwinnernew);
+        console.log('x < y', d.getDate() , forwinnernew.getDate() , d.getMonth() <=forwinnernew.getMonth() , d.getFullYear() <=forwinnernew.getFullYear() , d.getHours <=forwinnernew.getHours() , d.getMinutes() <=forwinnernew.getMinutes());
+        if(d.getDate() < forwinnernew.getDate()){
+            setcompare(true);
+            co=true;
+            console.log("setcompare",true);
+        }else if(d.getDate() <= forwinnernew.getDate()){
+            setcompare(false);
+            co=false;
+            console.log("setcompareeuaal",false);
+        }
+        else{
+            console.log("setcompare",false);
+            co=false;
+            setcompare(false)
+        }
+        //     if(d.getMonth() <=forwinnernew.getMonth())
+        //        if(d.getFullYear() <=forwinnernew.getFullYear())
+        //           if(d.getHours <=forwinnernew.getHours())
+        //              if(d.getMinutes() <=forwinnernew.getMinutes())
+        //                 setcompare(false)
+        // }else{
+        //     setcompare(true);
+        // }
         if(item){
             try {
                 Axios.post("http://192.168.1.104:5000/api/BidProduct/findbid", {
@@ -87,14 +114,15 @@ const ModelComponent=({route,navigation})=>{
                         numbers1.map(myid)
                         console.log("my",newdummy);
                         console.log(forids);
-                        console.log(Math.max(...cars))
+                        //console.log(Math.max(...cars))
                         console.log(cars);
-                        max=Math.max(...cars);
+                        //max=Math.max(...cars);
                         console.log(cars.indexOf(Math.max(...cars)));
                         console.log(forids[cars.indexOf(Math.max(...cars))]);
                         setwinner(forids[cars.indexOf(Math.max(...cars))]);
                         setrandom(Math.max(...cars));
-                        if(!(d < h)){
+                        if(!(co)){
+                            console.log("hello")
                             Axios.post('http://192.168.1.104:5000/api/BidProduct/findwinnerid', {
                                 userid:forids[cars.indexOf(Math.max(...cars))]
                               })
@@ -186,7 +214,8 @@ const ModelComponent=({route,navigation})=>{
      }
 
      function myid(value, index, array){
-         if(value.userid==item.userid){
+         if(value.userid==uid){
+             console.log("hiiiiiiiiiiiiiiiiii",value.userid);
             setnewdummy(true)
             setdummyprice(value.bidamount)
          }
@@ -243,7 +272,7 @@ const ModelComponent=({route,navigation})=>{
         console.log(item.userid,item.id,item.productname,bidprice,new Date().toLocaleString(),item.category);
         try {
             Axios.post("http://192.168.1.104:5000/api/BidProduct/bid", {
-                userid:item.userid,
+                userid:uid,
                 productid:item.id,
                 bidproductname:item.productname,
                 bidamount:bidprice,
@@ -441,18 +470,31 @@ const ModelComponent=({route,navigation})=>{
                                 <>
                                       <View style={styles.center}>
                                             <Text style={styles.title}>Bid End</Text>
-                                            <Text style={styles.padTop}>
-                                                <Text style={styles.label}>Winner Name:</Text> &nbsp;
-                                                    {dom.username}
-                                            </Text>
-                                            <Text style={styles.padTop}>
-                                                <Text style={styles.label}>Sold Amount:</Text> &nbsp;
-                                                    {random}
-                                            </Text>
-                                            <Text style={styles.padTop}>
-                                                <Text style={styles.label}>Email:</Text> &nbsp;
-                                                    {dom.email}
-                                            </Text>
+                                            {is_bideen ? (
+                                            <View style={styles.center}>
+                                                
+                                                    <Text style={styles.padTop}>
+                                                        <Text style={styles.label}>Winner Name:</Text> &nbsp;
+                                                           {dom.username}
+                                                        </Text>
+                                                        <Text style={styles.padTop}>
+                                                            <Text style={styles.label}>Sold Amount:</Text> &nbsp;
+                                                                {random}
+                                                            </Text>
+                                                        <Text style={styles.padTop}>
+                                                        <Text style={styles.label}>Email:</Text> &nbsp;
+                                                            {dom.email}
+                                                        </Text>
+                                                            <Text style={styles.padTop}>
+                                                                <Text style={styles.label}>Phone No.:-</Text> &nbsp;
+                                                                        {dom.phonenumber}
+                                                          </Text>
+                                                       </View>
+                                        ) : (
+                                            <View style={styles.center}>
+                                                <Text style={styles.title}>Unsold</Text>
+                                            </View>
+                                        )}
                                       </View>
                                 </>
                             )}

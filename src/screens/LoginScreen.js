@@ -36,8 +36,8 @@ import {
 
 
 const LoginScreen=({navigation})=>{
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [loading, setloading] = useState(1);
     const [user, setUser] = useState(null);
    
@@ -202,6 +202,7 @@ const LoginScreen=({navigation})=>{
       }
   
      try {
+      console.log(typeof(email),typeof(password));
       Axios.post('http://192.168.1.104:5000/api/auth/signin', {
         email: email,
         password:password,
@@ -221,9 +222,10 @@ const LoginScreen=({navigation})=>{
           storeData(userids,user_names,user_emails,user_phoneNumber);
           Snackbar.show({
             text: 'Login Successfully!',
-            duration: Snackbar.LENGTH_INDEFINITE,
+            backgroundColor:"green",
+            duration: Snackbar.LENGTH_SHORT,
             action: {
-              textColor: 'green',
+              textColor: 'black',
             },
           });
           navigation.replace("Home");
@@ -348,7 +350,9 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   views:{
     flex:1,
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   container: {
     alignItems: 'center',

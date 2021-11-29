@@ -9,7 +9,6 @@ import {
     ImageBackground,
     Alert,
     ActivityIndicator,
-    BackHandler
 } from "react-native";
 
 import FormInput from "../components/FormInput";
@@ -19,10 +18,10 @@ import FormPassword from "../components/FormPassword";
 import appbg from "../assests/appbg.png";
 import Logo from "../assests/unnamed.jpg";
 import Axios from 'axios';
-import Routes from "../navigation/Routes";
+//import Routes from "../navigation/Routes";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Snackbar from 'react-native-snackbar';
-import {windowWidth,windowHeight} from "../utils/Dimension";
+//import {windowWidth,windowHeight} from "../utils/Dimension";
 
 const SignupScreen = ({navigation}) => {
   const [email, setEmail] = useState();
@@ -64,7 +63,7 @@ const SignupScreen = ({navigation}) => {
       Alert.alert('Password field is required.');
     } else if (!confirmPassword) {
       setloading(1);
-      setPassword('');
+      //setPassword('');
       Alert.alert('Confirm password field is required.');
     } else if (password !== confirmPassword) {
       setloading(1);

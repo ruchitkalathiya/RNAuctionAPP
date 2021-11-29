@@ -140,7 +140,7 @@ const Screen3=({navigation})=>{
               <FlatList data={details}
                   keyExtractor={(item, index) => 'key' + index}
                   renderItem={({item}) => {
-                      return <NewsCard item = {item} onPress={"ModelComponent"} screen={"Screen3"} navigation={navigation}/>
+                      return <NewsCard item = {item} onPress={"ModelComponent"} screen={"Screen3"}  uid={id} navigation={navigation}/>
                       // console.log("item",item);
                       // renderItemComponent(item)
                   }}
